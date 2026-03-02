@@ -43,10 +43,10 @@ def show():
 @app.route("/update/<int:sno>",methods=["GET","POST"])
 def update(sno):
     if request.method=="POST":
-        titel=request.form["title"]
+        title=request.form["title"]
         desc=request.form["desc"]
         todo=Todo.query.filter_by(sno=sno).first()
-        todo.titel=titel
+        todo.title=title
         todo.desc=desc
         
         db.session.add(todo)
