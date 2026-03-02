@@ -19,15 +19,25 @@ class Todo(db.Model):
     def __repr__(self) ->str:
         return f"{self.sno} {self.title}"
 
-
-
-
-
-
-
-@app.route("/")
+@app.route("/",methods=["GET","POST"])
 def main():
-    return render_template("index.html")
+    if request.method=="POST":
+        titel=request.form["title"]
+        desc=request.form["desc"]
+        todo_1=Todo(title=titel,desc=desc)
+        
+        db.session.add(todo_1)
+        db.session.commit()
+    alltodo=Todo.query.all()
+    return render_template("index.html",alltodo=alltodo)
+
+
+# ------This query is use to show data in terminal------
+@app.route("/show")
+def show():
+    alltodo=Todo.query.all()
+    print(alltodo)
+    return "************* This page is use to show all data in TERMINAL **********"
 
 if __name__=="__main__":
     app.run(debug=True)
